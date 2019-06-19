@@ -2,12 +2,13 @@
 	<div id="add-blog">
 		<h2>添加博客</h2>
 		<form v-if="!submmited">
-			<lable>博客标题</lable>
+			<label>博客标题</label>
 			<input type="text" v-model="blog.title" required/>
-			<lable>博客内容</lable>
+			<label>博客内容</label>
 			<textarea name="" id="" v-model="blog.content"></textarea>
 			
 			<div id="checkboxes">
+				
 				<label>Vue.js</label>
 				<input type="checkbox" value="Vue.js" v-model="blog.categories"></input>
 				<label>Node.js</label>
@@ -17,7 +18,7 @@
 				<label>Angular4.js</label>
 				<input type="checkbox" value="Angular4.js" v-model="blog.categories"></input>
 			</div>
-			<lable>作者：</lable>
+			<label>作者：</label>
 			<select v-model="blog.author">
 				<option v-for="author in authors">
 					{{author}}
@@ -63,7 +64,9 @@ export default{
 	methods:{
 		post:function  () {
 			// 数据传到相应的位置 如数据库等 
+			// this.$http.post("http://jsonplaceholder.typicode.com/posts",
 			this.$http.post("http://jsonplaceholder.typicode.com/posts",
+			
 				{
 					title:this.blog.title,
 					body:this.blog.content,
@@ -89,7 +92,7 @@ export default{
 		max-width: 600px;
 		padding: 20px;
 	}
-	lable{
+	label{
 		/* 标签单独一行 */
 		display: block;
 		margin: 20px 0 10px;
