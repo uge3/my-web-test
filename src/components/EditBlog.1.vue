@@ -1,6 +1,6 @@
 <template>
 	<div id="add-blog">
-		<h2>添加博客</h2>
+		<h2>编辑博客</h2>
 		<form v-if="!submmited">
 			<label>博客标题</label>
 			<input type="text" v-model="blog.title" required/>
@@ -24,10 +24,10 @@
 					{{author}}
 				</option>
 			</select>
-			<button v-on:click.prevent="post">添加博客</button>
+			<button v-on:click.prevent="post">编辑提交</button>
 		</form>
 		<div v-if="submmited">
-			<h3>你的博客发布成功</h3>
+			<h3>你的博客修改成功</h3>
 		</div>
 		<hr>
 		<div id="preview">
@@ -47,36 +47,38 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default{
 	name: 'add-blog',
 	data () {
-	    return {			 
-	     blog:{
-			 title:"",
-			 content:"",
-			 categories:[],
-			 author:""
-		 },
+	    return {
+		id:this.$route.params.id,
+	    blog:{},
 		 authors:["hem","hery","baey"],
 		 submmited:false
 	  }
 	},
 	methods:{
-		post:function  () {
-			const query =Bmob.Query('MyBlog');
-			for (let key in this.blog){
-				console.log(key)
-				console.log(this.blog[key])
-				query.set(key,this.blog[key])
-			}
-			query.save().then(res=>{
-				console.log(res);				
-				this.submmited=true;//显示判断
-			}).catch(err=>{
-				console.log(ree)
+		fetchData(){
+			console.log(this.id),
+			//firebase云数据
+			this.$http.get('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json")
+			.then(response =>{
+				console.log(response.body);
+				this.blog=response.body;
 			})
+		},
+		post:function  () {
+			// 数据传到相应的位置 如数据库等 
+			// this.$http.post("http://jsonplaceholder.typicode.com/posts",
+			this.$http.put('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json",this.blog)// 将上面的data中的bolg 内容更新数据库			
+			.then(function(data){
+				this.submmited=true;//显示判断
+				console.log(data);
+			});
 		}
+	},
+	created(){
+		this.fetchData();//调用的方法
 	}
 }
 	

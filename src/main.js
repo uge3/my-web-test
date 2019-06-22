@@ -4,10 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
-
+//引入  bmob
+import Bmob from"hydrogen-js-sdk"
 Vue.config.productionTip = false
-
-
+Bmob.initialize("7498ab99babd4e41b420a8e7a576f827","d571aa46b4b96d6e480035d0652a7b31")
+//全局设置
+Vue.prototype.Bmob =Bmob
 Vue.use(VueResource)
 // 自定义指令 注册
 // Vue.directive('rainbow',{

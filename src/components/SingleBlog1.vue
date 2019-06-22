@@ -27,25 +27,26 @@
 			}
 		},
 		created(){
-			//数据库获取数据 Bmob
-			const query =Bmob.Query('MyBlog');
-			console.log(this.id)
-			query.get(this.id).then(res => {
-				console.log(res)
-				this.blog=res
-			}).catch(err => {
-				  console.log(err)
+			// this.$http.get('../static/posts.json/').then(function(data){
+				//数据库获取数据
+			this.$http.get('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json")
+			.then(function(data){
+				// console.log(data.body[this.id-1]);
+				// this.blog= data.body[this.id-1];
+				console.log(data);
+				return data.json();				
+			})
+			.then(function(data){
+				this.blog = data;
 			})
 		},
 		methods:{
 			deleteSingleBlog(){
-				//从数据库删除 记录
-				const query = Bmob.Query('MyBlog');
-				query.destroy(this.id).then(res => {
-					  console.log(res)
-					  this.$router.push({path:"/"})
-					}).catch(err => {
-					  console.log(err)
+				//数据库删除数据
+				this.$http.delete('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json")
+				.then(response=>{
+					//跳转   路由  添加到主页
+					this.$router.push({path:"/"})
 				})
 			}
 		}

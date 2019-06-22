@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import AddBlog from '@/components/AddBlog'
 import ShowBlogs from '@/components/ShowBlogs'
 import SingleBlog from '@/components/SingleBlog'
+import EditBlog from '@/components/EditBlog'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
 			path:'/blog/:id',
 			name:'blog',
 			component:SingleBlog
+		},
+		{
+			path:'/edit/:id',
+			name:'blog',
+			component:EditBlog
 		}
   ],
 	mode:"history"  //去掉#符号
