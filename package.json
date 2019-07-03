@@ -12,7 +12,7 @@
   "dependencies": {
     "ajv": "^6.9.1",
     "cnpm": "^6.1.0",
-    "vue": "^2.5.2"
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -45,6 +45,7 @@
     "shelljs": "^0.7.6",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
+    "vue-axios": "^2.1.4",
     "vue-loader": "^13.3.0",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.6",
@@ -52,7 +53,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.12.0",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-dev-server": "^2.11.5",
+    "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^4.2.1"
   },
   "engines": {

@@ -52,55 +52,29 @@ export default{
 	data () {
 	    return {
 		id:this.$route.params.id,
-	    blog:{
-			// title:"",
-			// content:"",
-			// categories:[],
-			// author:""
-		},
+	    blog:{},
 		 authors:["hem","hery","baey"],
 		 submmited:false
 	  }
 	},
 	methods:{
 		fetchData(){
-			//数据库获取数据 Bmob
-			const query =Bmob.Query('MyBlog');
-			console.log(this.id)
-			query.get(this.id).then(res => {
-				this.blog=res
-			}).catch(err => {
-				  console.log(err)
+			console.log(this.id),
+			//firebase云数据
+			this.$http.get('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json")
+			.then(response =>{
+				console.log(response.body);
+				this.blog=response.body;
 			})
 		},
 		post:function  () {
 			// 数据传到相应的位置 如数据库等 
-			const query = Bmob.Query('MyBlog');
-			var blogs={
-						 title:"",
-						 content:"",
-						 categories:[],
-						 author:""
-			};
-			// query.set('id', this.id)
-			query.get(this.id).then(res=>{
-				for (let key in blogs){
-					console.log(key,this.blog[key])
-					res.set(key,this.blog[key])				
-				}
-				res.save()
-				this.$router.push({path:"/"})
-			}).catch(err=>{
-				console.log(err)
-			})
-			// for (let key in this.blog){
-			// 	query.set(key,this.blog[key])				
-			// }				
-			// query.save().then(res => {
-			//   console.log(res)
-			// }).catch(err => {
-			//   console.log(err)
-			// })
+			// this.$http.post("http://jsonplaceholder.typicode.com/posts",
+			this.$http.put('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json",this.blog)// 将上面的data中的bolg 内容更新数据库			
+			.then(function(data){
+				this.submmited=true;//显示判断
+				console.log(data);
+			});
 		}
 	},
 	created(){

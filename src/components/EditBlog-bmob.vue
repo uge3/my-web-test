@@ -1,6 +1,6 @@
 <template>
 	<div id="add-blog">
-		<h2>添加博客</h2>
+		<h2>编辑博客</h2>
 		<form v-if="!submmited">
 			<label>博客标题</label>
 			<input type="text" v-model="blog.title" required/>
@@ -24,10 +24,10 @@
 					{{author}}
 				</option>
 			</select>
-			<button v-on:click.prevent="post">添加博客</button>
+			<button v-on:click.prevent="post">编辑提交</button>
 		</form>
 		<div v-if="submmited">
-			<h3>你的博客发布成功</h3>
+			<h3>你的博客修改成功</h3>
 		</div>
 		<hr>
 		<div id="preview">
@@ -47,33 +47,57 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default{
 	name: 'add-blog',
 	data () {
-	    return {			 
-	     blog:{
-			 title:"",
-			 content:"",
-			 categories:[],
-			 author:""
-		 },
+	    return {
+		id:this.$route.params.id,
+	    blog:{
+			// title:"",
+			// content:"",
+			// categories:[],
+			// author:""
+		},
 		 authors:["hem","hery","baey"],
 		 submmited:false
 	  }
 	},
 	methods:{
+		fetchData(){
+			//数据库获取数据 Bmob
+			const query =Bmob.Query('MyBlog');
+			console.log(this.id)
+			query.get(this.id).then(res => {
+				this.blog=res
+			}).catch(err => {
+				  console.log(err)
+			})
+		},
 		post:function  () {
+			// 数据传到相应的位置 如数据库等 
+			const query = Bmob.Query('MyBlog');
+			var blogs={
+						 title:"",
+						 content:"",
+						 categories:[],
+						 author:""
+			};
+			// query.set('id', this.id)
+			query.get(this.id).then(res=>{
+				for (let key in blogs){
+					console.log(key,this.blog[key])
+					res.set(key,this.blog[key])				
+				}
+				res.save()
+				this.$router.push({path:"/"})
+			}).catch(err=>{
+				console.log(err)
+			})
 			
-			//数据传到相应的位置 如数据库等 
-			// this.$http.post("http://jsonplaceholder.typicode.com/posts",
-			axios.post("https://vuejs-test-7433e.firebaseio.com/posts.json",this.blog// 将上面的data中的bolg 内容写入数据库			
-			)
-			.then((data)=>{
-				this.submmited=true;//显示判断
-				console.log(data);
-			});
 		}
+	},
+	created(){
+		this.fetchData();//调用的方法
 	}
 }
 	

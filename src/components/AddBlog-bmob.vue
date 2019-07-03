@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 export default{
 	name: 'add-blog',
 	data () {
@@ -64,15 +64,18 @@ export default{
 	},
 	methods:{
 		post:function  () {
-			
-			//数据传到相应的位置 如数据库等 
-			// this.$http.post("http://jsonplaceholder.typicode.com/posts",
-			axios.post("https://vuejs-test-7433e.firebaseio.com/posts.json",this.blog// 将上面的data中的bolg 内容写入数据库			
-			)
-			.then((data)=>{
+			const query =Bmob.Query('MyBlog');
+			for (let key in this.blog){
+				console.log(key)
+				console.log(this.blog[key])
+				query.set(key,this.blog[key])
+			}
+			query.save().then(res=>{
+				console.log(res);				
 				this.submmited=true;//显示判断
-				console.log(data);
-			});
+			}).catch(err=>{
+				console.log(ree)
+			})
 		}
 	}
 }

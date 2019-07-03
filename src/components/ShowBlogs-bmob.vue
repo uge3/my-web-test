@@ -3,10 +3,10 @@
 	<div v-theme:column="'wide'" id="show-blogs">
 		<h1>博客总览</h1>
 		<input type="text" v-model="search" placeholder="搜索"/>
-		<div v-for="blog in filteredBlogs" class="single-blog" :key=blog.id>
+		<div v-for="blog in filteredBlogs" class="single-blog" :key="blog.objectId">
 <!-- 		<div  v-for="blog in blogs" class="single-blog"> -->
 			<!--  自定义指令             自定义过滤器 -->
-			<router-link v-bind:to="'/blog/'+blog.id">
+			<router-link v-bind:to="'/blog/'+blog.objectId">
 				<h2 v-rainbow>{{blog.title | to-uppercase}}</h2>
 			</router-link>
 			<article>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	import axios from 'axios'
+	
 	export default{
 		name:'show-blogs',
 		data(){
@@ -28,31 +28,23 @@
 				search:""
 			}
 		},
-		created() {
-			//从firebase 数据  库获取// this.$http.get('../static/posts.json')
-			axios.get('https://vuejs-test-7433e.firebaseio.com/posts.json')		
-			.then(function(data){
-				// console.log(data.json(),'==================');
-				return data.data//将数据返回				
-				// this.blogs=data.body.slice(0,10)
-			})
-			.then((data)=>{
-				var blogsArray=[];
-				//输出KEY值
-				for(let key in data){
-					console.log(key,"key");
-					data[key].id=key;
-					blogsArray.push(data[key]);
-				}	
-				this.blogs=blogsArray;	
-			})
+		created() {	
+			//从 Bmob数据库获取// this.$http.get('../static/posts.json')		
+			const query =Bmob.Query('MyBlog');	
+			query.find().then(res =>{							
+				for(var i=0;i<res.length;i++){							
+					this.blogs.push(res[i])
+				}				
+			})			
+					
 		},
 		computed:{
-			filteredBlogs:function(){
-				return this.blogs.filter((blog)=>{
+			filteredBlogs:function(){				
+				return this.blogs.filter((blog)=>{					
+					// 进行过滤
 					return blog.title.match(this.search);
 				})
-			}
+			},
 		},
 		//局部实现自定义过滤器
 		filters:{
