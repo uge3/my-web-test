@@ -47,6 +47,7 @@
 </template>
 
 <script>
+	import axios from 'axios'
 export default{
 	name: 'add-blog',
 	data () {
@@ -61,10 +62,10 @@ export default{
 		fetchData(){
 			console.log(this.id),
 			//firebase云数据
-			this.$http.get('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json")
+			axios.get('https://vuejs-test-7433e.firebaseio.com/posts/'+this.id+".json")
 			.then(response =>{
-				console.log(response.body);
-				this.blog=response.body;
+				console.log(response.data);
+				this.blog=response.data;
 			})
 		},
 		post:function  () {

@@ -12,7 +12,7 @@ Bmob.initialize("7498ab99babd4e41b420a8e7a576f827","d571aa46b4b96d6e480035d0652a
 //全局设置
 Vue.prototype.Bmob =Bmob
 Vue.use(VueResource)
-// axios.defaults.baseURL="https:///vuejs-test-7433e.firebaseio.com"
+axios.defaults.baseURL="https:///vuejs-test-7433e.firebaseio.com"
 //请求头
 // axios.defaults.headers.common['authorization']='Token'
 // axios.defaults.headers.post['Content-type']='application/urlencode'

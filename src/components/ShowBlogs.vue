@@ -19,7 +19,8 @@
 </template>
 
 <script>
-	import axios from 'axios'
+	import axios from '../axios-auth'
+	// import axios from 'axios'
 	export default{
 		name:'show-blogs',
 		data(){
